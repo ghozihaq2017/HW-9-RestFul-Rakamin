@@ -9,6 +9,8 @@ router.get('/', moviesController.getAll);
 // GET MOVIES DETAIL
 router.get('/:id', moviesController.getOne);
 
+// ACCESS ONLY BY ENGINEER
+
 // ADD NEW MOVIE
 router.post('/', authorization, moviesController.add);
 

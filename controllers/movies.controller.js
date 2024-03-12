@@ -8,29 +8,29 @@ class MoviesController {
     try {
       const paginationStr = pagination(req.query);
 
-      const countSql = `
-        SELECT
-          COUNT(DISTINCT movies.*) AS count
-        FROM
-          movies
-        ${paginationStr}
-      `;
+      // const countSql = `
+      //   SELECT
+      //     COUNT(DISTINCT movies.*) AS count
+      //   FROM
+      //     movies
+      //   ${paginationStr}
+      // `;
 
-      const dataCount = await pool.query(countSql);
+      // const dataCount = await pool.query(countSql);
 
-      const moviesSize = dataCount.rows[0];
+      // const moviesSize = dataCount.rows[0];
 
-      let { limit, page } = req.query;
-      limit = +limit || DEFAULT_LIMIT;
-      page = +page || DEFAULT_PAGE;
+      // let { limit, page } = req.query;
+      // limit = +limit || DEFAULT_LIMIT;
+      // page = +page || DEFAULT_PAGE;
 
-      let totalPages = 0;
-      if (moviesSize && moviesSize.count) {
-        totalPages = Math.ceil(+moviesSize.count / limit);
-      }
+      // let totalPages = 0;
+      // if (moviesSize && moviesSize.count) {
+      //   totalPages = Math.ceil(+moviesSize.count / limit);
+      // }
 
-      const nextPage = page + 1 <= totalPages ? page + 1 : null;
-      const prevPage = page - 1 > 0 ? page - 1 : null;
+      // const nextPage = page + 1 <= totalPages ? page + 1 : null;
+      // const prevPage = page - 1 > 0 ? page - 1 : null;
 
       const sql = `
         SELECT
@@ -43,10 +43,10 @@ class MoviesController {
       const result = await pool.query(sql);
       res.status(200).json({
         data: result.rows,
-        totalPages,
-        currentPage: page,
-        nextPage,
-        prevPage,
+        // totalPages,
+        // currentPage: page,
+        // nextPage,
+        // prevPage,
       });
     } catch (err) {
       next(err);

@@ -34,7 +34,6 @@ class AuthController {
 
   static login = async (req, res, next) => {
     try {
-      console.log(req.body);
       const { email, password } = req.body;
 
       // Search User By Email
@@ -47,7 +46,6 @@ class AuthController {
       `;
 
       const result = await pool.query(searchSql, [email]);
-      console.log(result.rows);
 
       if (result.rows.length !== 0) {
         // compare password

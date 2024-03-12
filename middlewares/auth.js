@@ -3,8 +3,9 @@ const pool = require('../config/config.js');
 
 const authentication = async (req, res, next) => {
   try {
-    if (req.header.authorization) {
-      const token = request.headers.authorization.split(' ')[1];
+    console.log(req.headers.authorization);
+    if (req.headers.authorization) {
+      const token = req.headers.authorization.split(' ')[1];
       const { id, email } = verifyToken(token);
 
       const sql = `
@@ -13,18 +14,15 @@ const authentication = async (req, res, next) => {
         WHERE id = $1
         AND email = $2
         `;
-
       const result = await pool.query(sql, [id, email]);
-
       if (result.rows.length !== 0) {
         const user = result.rows[0];
-
+        console.log(user);
         req.loggedUser = {
           id: user.id,
           email: user.email,
           role: user.role,
         };
-
         next();
       } else {
         throw { name: 'Unauthenticated' };
@@ -40,8 +38,7 @@ const authentication = async (req, res, next) => {
 const authorization = async (req, res, next) => {
   try {
     const { role } = req.loggedUser;
-
-    if (role === 'Admin') {
+    if (role === 'Engineer') {
       next();
     } else {
       throw { name: 'Unauthorized' };
